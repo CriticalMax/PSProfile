@@ -72,13 +72,13 @@ function Get-PSProfile
     $CanCopyConsole = $true
     if(!(Test-Path -Path $ConsolePath))
     {
-        Write-Host "No Console Profile found. Make sure to save Profile first." -ForegroundColor Red
+        Write-Host "No Console Profile found in ExportPath. Make sure to save Profile first." -ForegroundColor Red
         $CanCopyConsole = $true
     }
 
     if(!(Test-Path -Path $ISEPath))
     {
-        Write-Host "No ISE Profile found. Make sure to save Profile first." -ForegroundColor Red
+        Write-Host "No ISE Profile found in ExportPath. Make sure to save Profile first." -ForegroundColor Red
         $CanCopyISE = $false
     }
 
@@ -88,9 +88,17 @@ function Get-PSProfile
         {
             Copy-Item -Path $ISEPath -Destination $ProfilePathISE -Force
         }
+        else 
+        {
+            break
+        }
         if($CanCopyConsole -eq $true)
         {
             Copy-Item -Path $ConsolePath -Destination $ProfilePathConsole -Force
+        }
+        else 
+        {
+            break
         }
     }
     else
@@ -99,9 +107,17 @@ function Get-PSProfile
         {
             Copy-Item -Path $ISEPath -Destination $ProfilePathISE
         }
+        else 
+        {
+            break
+        }
         if($CanCopyConsole -eq $true)
         {
             Copy-Item -Path $ConsolePath -Destination $ProfilePathConsole
+        }
+        else 
+        {
+            break
         }
     }    
 }
@@ -136,32 +152,32 @@ function New-PSProfile
     {
         if($OnlyConsole)
         {
-            New-Item -Path $ConsolePath -Force | Out-Null
+            New-Item -Path $ProfilePathConsole -Force | Out-Null
         }
         elseif($OnlyISE)
         {
-            New-Item -Path $ISEPath -Force | Out-Null
+            New-Item -Path $ProfilePathISE -Force | Out-Null
         }
         else 
         {
-            New-Item -Path $ConsolePath -Force | Out-Null
-            New-Item -Path $ISEPath -Force | Out-Null
+            New-Item -Path $ProfilePathConsole -Force | Out-Null
+            New-Item -Path $ProfilePathISE -Force | Out-Null
         }
     }
     else 
     {
         if($OnlyConsole)
         {
-            New-Item -Path $ConsolePath | Out-Null
+            New-Item -Path $ProfilePathConsole | Out-Null
         }
         elseif($OnlyISE)
         {
-            New-Item -Path $ISEPath | Out-Null
+            New-Item -Path $ProfilePathISE | Out-Null
         }
         else 
         {
-            New-Item -Path $ConsolePath | Out-Null
-            New-Item -Path $ISEPath | Out-Null
+            New-Item -Path $ProfilePathConsole | Out-Null
+            New-Item -Path $ProfilePathISE | Out-Null
         }
     }
 }
