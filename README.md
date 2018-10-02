@@ -45,4 +45,4 @@ Edit-PSProfile
 ```
 
 ## License
-[LICENSE.md](https://github.com/MaxBelohoubek/PSProfile/blob/master/LICENSE.md)
+[LICENSE.md](https://github.com/MaxBelohoubek/PSProfile/blob/master/LICENSE)
