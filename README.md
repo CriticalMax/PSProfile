@@ -4,7 +4,7 @@ Administration Tool for your PowerShell Profile.
 
 ## Installation
 
-[PowerShell Gallery](https://www.powershellgallery.com/packages/PSProfile-Tools/)
+[PowerShell Gallery](https://www.powershellgallery.com/packages/PSProfile-Tools)
 
 Run the following command in an elevated PowerShell session to install the PSProfile-Tools cmdlets:
 
@@ -19,14 +19,17 @@ Update-Module -Name PSProfile-Tools
 
 ## Usage
 
-NOTE: You need an already exisiting PowerShell Profile (Console and ISE Version)  
+NOTE: If no profile exists, you have to execute New-PSProfile first.  
 NOTE: This will be fixed in a coming release.
 
 ```powershell
 Import-Module -Name PSProfile-Tools
 
-#Necessary at first installation
+#Neccessary at first installation
 Install-PSProfileTools -ExportPath "Path\To\Export"
+
+#If you have no PSProfile so far run
+New-PSProfile
 
 #To save your profile run
 Save-PSProfile

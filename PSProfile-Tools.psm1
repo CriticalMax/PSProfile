@@ -68,16 +68,118 @@ function Get-PSProfile
     $ConsolePath = "$Path\$ConsoleProfileName"
     $ISEPath = "$Path\$ISEProfileName"
 
+    $CanCopyISE = $true
+    $CanCopyConsole = $true
+    if(!(Test-Path -Path $ConsolePath))
+    {
+        Write-Host "No Console Profile found in ExportPath. Make sure to save Profile first." -ForegroundColor Red
+        $CanCopyConsole = $true
+    }
+
+    if(!(Test-Path -Path $ISEPath))
+    {
+        Write-Host "No ISE Profile found in ExportPath. Make sure to save Profile first." -ForegroundColor Red
+        $CanCopyISE = $false
+    }
+
     if($Force)
     {
-        Copy-Item -Path $ConsolePath -Destination $ProfilePathConsole -Force
-        Copy-Item -Path $ISEPath -Destination $ProfilePathISE -Force
+        if($CanCopyISE -eq $true)
+        {
+            Copy-Item -Path $ISEPath -Destination $ProfilePathISE -Force
+        }
+        else 
+        {
+            break
+        }
+        if($CanCopyConsole -eq $true)
+        {
+            Copy-Item -Path $ConsolePath -Destination $ProfilePathConsole -Force
+        }
+        else 
+        {
+            break
+        }
     }
     else
     {
-        Copy-Item -Path $ConsolePath -Destination $ProfilePathConsole
-        Copy-Item -Path $ISEPath -Destination $ProfilePathISE
+        if($CanCopyISE -eq $true)
+        {
+            Copy-Item -Path $ISEPath -Destination $ProfilePathISE
+        }
+        else 
+        {
+            break
+        }
+        if($CanCopyConsole -eq $true)
+        {
+            Copy-Item -Path $ConsolePath -Destination $ProfilePathConsole
+        }
+        else 
+        {
+            break
+        }
     }    
+}
+
+function New-PSProfile
+{
+    [CMDletBinding()]
+    param
+    (
+        [Parameter()]
+        [switch]$OnlyConsole,
+        [Parameter()]
+        [switch]$OnlyISE,
+        [Parameter()]
+        [switch]$Force
+    )
+
+    $Config = (Get-Content -Path ((Get-ItemProperty -Path HKLM:\Software\ProfileTools).psobject.properties.value[0]) | ConvertFrom-Json)
+    
+    $Path = $Config.ExportPath
+    $ConsoleProfileName = $Config.ConsoleProfile
+    $ISEProfileName = $Config.ISEProfile
+
+    $ProfilePath = "$env:USERPROFILE\Documents\WindowsPowerShell\"
+    $ProfilePathConsole = "$ProfilePath\$ConsoleProfileName"
+    $ProfilePathISE = "$ProfilePath\$ISEProfileName"
+
+    $ConsolePath = "$Path\$ConsoleProfileName"
+    $ISEPath = "$Path\$ISEProfileName"
+
+    if($Force)
+    {
+        if($OnlyConsole)
+        {
+            New-Item -Path $ProfilePathConsole -Force | Out-Null
+        }
+        elseif($OnlyISE)
+        {
+            New-Item -Path $ProfilePathISE -Force | Out-Null
+        }
+        else 
+        {
+            New-Item -Path $ProfilePathConsole -Force | Out-Null
+            New-Item -Path $ProfilePathISE -Force | Out-Null
+        }
+    }
+    else 
+    {
+        if($OnlyConsole)
+        {
+            New-Item -Path $ProfilePathConsole | Out-Null
+        }
+        elseif($OnlyISE)
+        {
+            New-Item -Path $ProfilePathISE | Out-Null
+        }
+        else 
+        {
+            New-Item -Path $ProfilePathConsole | Out-Null
+            New-Item -Path $ProfilePathISE | Out-Null
+        }
+    }
 }
 
 function Save-PSProfile
