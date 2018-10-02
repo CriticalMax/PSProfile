@@ -42,6 +42,7 @@ function Install-ProfileTools
 
     $Config = $Config | Convertto-json -Depth 100 
     New-Item -ItemType File -Path "$ConfigPath\$ConfigName" -Value $Config -Force | Out-Null
+    New-Item -Path HKLM:\Software\ProfileTools -Value "$ConfigPath\$ConfigName" -Force | Out-Null
 }
 
 function Edit-PSProfile
