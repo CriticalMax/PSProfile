@@ -5,13 +5,13 @@ The PowerShell Profile allows you to write Code that will be loaded every time y
 It's a great way to always have your own functions ready, without having the need to code and import an entire module.  
 This module will give you an easy way to create and backup your PS profile, in case you switch to another machine.
 
-#### Sidenote
-
-*The more code you put into your profile the longer it will take for the PS Console and/or ISE to start.*
+>**Sidenote**  
+>*The more code you put into your profile the longer it will take for the PS Console and/or ISE to start.*
 
 ## Installation
 
-[PowerShell Gallery](https://www.powershellgallery.com/packages/PSProfile-Tools)
+This module is available in the PowerShell Gallery.  
+[Link](https://www.powershellgallery.com/packages/PSProfile-Tools)
 
 Run the following command in an elevated PowerShell session to install the PSProfile-Tools cmdlets:
 
@@ -45,4 +45,4 @@ Edit-PSProfile
 ```
 
 ## License
-[MIT](https://github.com/MaxBelohoubek/PSProfile/blob/master/LICENSE.md)
+[LICENSE.md](https://github.com/MaxBelohoubek/PSProfile/blob/master/LICENSE.md)
