@@ -45,4 +45,4 @@ Edit-PSProfile
 ```
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+[MIT](https://github.com/MaxBelohoubek/PSProfile/blob/master/LICENSE.md)
