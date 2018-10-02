@@ -4,7 +4,7 @@ Administration Tool for your PowerShell Profile.
 
 ## Installation
 
-[PowerShell Gallery](https://www.powershellgallery.com/packages/PSProfile-Tools/)
+[PowerShell Gallery](https://www.powershellgallery.com/packages/PSProfile-Tools)
 
 Run the following command in an elevated PowerShell session to install the PSProfile-Tools cmdlets:
 
