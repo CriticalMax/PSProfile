@@ -43,3 +43,6 @@ Save-PSProfile
 #To edit your profile run
 Edit-PSProfile
 ```
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
