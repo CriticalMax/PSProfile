@@ -112,6 +112,10 @@ function New-PSProfile
     param
     (
         [Parameter()]
+        [switch]$OnlyConsole,
+        [Parameter()]
+        [switch]$OnlyISE,
+        [Parameter()]
         [switch]$Force
     )
 
@@ -130,13 +134,35 @@ function New-PSProfile
 
     if($Force)
     {
-        New-Item -Path $ConsolePath -Force | Out-Null
-        New-Item -Path $ISEPath -Force | Out-Null
+        if($OnlyConsole)
+        {
+            New-Item -Path $ConsolePath -Force | Out-Null
+        }
+        elseif($OnlyISE)
+        {
+            New-Item -Path $ISEPath -Force | Out-Null
+        }
+        else 
+        {
+            New-Item -Path $ConsolePath -Force | Out-Null
+            New-Item -Path $ISEPath -Force | Out-Null
+        }
     }
     else 
     {
-        New-Item -Path $ConsolePath | Out-Null
-        New-Item -Path $ISEPath | Out-Null
+        if($OnlyConsole)
+        {
+            New-Item -Path $ConsolePath | Out-Null
+        }
+        elseif($OnlyISE)
+        {
+            New-Item -Path $ISEPath | Out-Null
+        }
+        else 
+        {
+            New-Item -Path $ConsolePath | Out-Null
+            New-Item -Path $ISEPath | Out-Null
+        }
     }
 }
 
