@@ -1,4 +1,4 @@
-function Install-ProfileTools
+function Install-PSProfileTools
 {
     <#
         .SYNOPSIS 
