@@ -68,15 +68,41 @@ function Get-PSProfile
     $ConsolePath = "$Path\$ConsoleProfileName"
     $ISEPath = "$Path\$ISEProfileName"
 
+    $CanCopyISE = $true
+    $CanCopyConsole = $true
+    if(!(Test-Path -Path $ConsolePath))
+    {
+        Write-Host "No Console Profile found. Make sure to save Profile first." -ForegroundColor Red
+        $CanCopyConsole = $true
+    }
+
+    if(!(Test-Path -Path $ISEPath))
+    {
+        Write-Host "No ISE Profile found. Make sure to save Profile first." -ForegroundColor Red
+        $CanCopyISE = $false
+    }
+
     if($Force)
     {
-        Copy-Item -Path $ConsolePath -Destination $ProfilePathConsole -Force
-        Copy-Item -Path $ISEPath -Destination $ProfilePathISE -Force
+        if($CanCopyISE -eq $true)
+        {
+            Copy-Item -Path $ISEPath -Destination $ProfilePathISE -Force
+        }
+        if($CanCopyConsole -eq $true)
+        {
+            Copy-Item -Path $ConsolePath -Destination $ProfilePathConsole -Force
+        }
     }
     else
     {
-        Copy-Item -Path $ConsolePath -Destination $ProfilePathConsole
-        Copy-Item -Path $ISEPath -Destination $ProfilePathISE
+        if($CanCopyISE -eq $true)
+        {
+            Copy-Item -Path $ISEPath -Destination $ProfilePathISE
+        }
+        if($CanCopyConsole -eq $true)
+        {
+            Copy-Item -Path $ConsolePath -Destination $ProfilePathConsole
+        }
     }    
 }
 
