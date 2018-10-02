@@ -106,6 +106,40 @@ function Get-PSProfile
     }    
 }
 
+function New-PSProfile
+{
+    [CMDletBinding()]
+    param
+    (
+        [Parameter()]
+        [switch]$Force
+    )
+
+    $Config = (Get-Content -Path ((Get-ItemProperty -Path HKLM:\Software\ProfileTools).psobject.properties.value[0]) | ConvertFrom-Json)
+    
+    $Path = $Config.ExportPath
+    $ConsoleProfileName = $Config.ConsoleProfile
+    $ISEProfileName = $Config.ISEProfile
+
+    $ProfilePath = "$env:USERPROFILE\Documents\WindowsPowerShell\"
+    $ProfilePathConsole = "$ProfilePath\$ConsoleProfileName"
+    $ProfilePathISE = "$ProfilePath\$ISEProfileName"
+
+    $ConsolePath = "$Path\$ConsoleProfileName"
+    $ISEPath = "$Path\$ISEProfileName"
+
+    if($Force)
+    {
+        New-Item -Path $ConsolePath -Force | Out-Null
+        New-Item -Path $ISEPath -Force | Out-Null
+    }
+    else 
+    {
+        New-Item -Path $ConsolePath | Out-Null
+        New-Item -Path $ISEPath | Out-Null
+    }
+}
+
 function Save-PSProfile
 {
     [CMDletBinding()]
