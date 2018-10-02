@@ -47,6 +47,22 @@ function Install-PSProfileTools
 
 function Get-PSProfile
 {
+    <#
+        .SYNOPSIS 
+        Gets PSProfile from export path.      
+
+        .DESCRIPTION
+        Gets PSProfile from the export path saved in the Profile Config.
+
+        .PARAMETER Force
+        Automatically replaces existing Profiles.
+
+        .EXAMPLE
+        C:\PS> Get-PSProfile
+
+        .EXAMPLE
+        C:\PS> Get-PSProfile -Force
+    #>
     [CMDletBinding()]
     param
     (
@@ -124,6 +140,31 @@ function Get-PSProfile
 
 function New-PSProfile
 {
+    <#
+        .SYNOPSIS 
+        Creates New PSProfile.
+
+        .DESCRIPTION
+        Creates empty PSProfile for Console and ISE.
+
+        .PARAMETER OnlyConsole
+        Only creates PSProfile for PS Console.
+
+        .PARAMETER OnlyISE
+        Only creates PSProfile for PS ISE.
+
+        .PARAMETER Force
+        Overrides existing PSProfile.
+
+        .EXAMPLE
+        C:\PS> New-PSProfile
+
+        .EXAMPLE
+        C:\PS> New-PSProfile -OnlyConsole
+
+        .EXAMPLE
+        C:\PS> New-PSProfile -OnlyISE -Force
+    #>
     [CMDletBinding()]
     param
     (
@@ -184,6 +225,22 @@ function New-PSProfile
 
 function Save-PSProfile
 {
+    <#
+        .SYNOPSIS 
+        Copies local PSProfile into ExportPath.
+
+        .DESCRIPTION
+        Copies local PSProfile into ExportPath.
+
+        .PARAMETER Force
+        Overrides existing PSProfile in ExportPath.
+
+        .EXAMPLE
+        C:\PS> Save-PSProfile
+
+        .EXAMPLE
+        C:\PS> Save-PSProfile -Force
+    #>
     [CMDletBinding()]
     param
     (
@@ -204,6 +261,18 @@ function Save-PSProfile
     $ConsolePath = "$Path\$ConsoleProfileName"
     $ISEPath = "$Path\$ISEProfileName"
 
+    if(!(Test-Path -Path $ProfilePathISE))
+        {
+            Write-Host "No local ISE Profile found. Creating empty ISE Profile."
+            New-Item -Path $ProfilePathISE | Out-Null
+        }
+
+        if(!(Test-Path -Path $ProfilePathConsole))
+        {
+            Write-Host "No local Console Profile found. Creating empty Console Profile."
+            New-Item -Path $ProfilePathConsole | Out-Null
+        }
+
     if($Force)
     {
         Copy-Item -Path $ProfilePathConsole -Destination $ConsolePath -Force
@@ -218,6 +287,37 @@ function Save-PSProfile
 
 function Edit-PSProfile
 {
+    <#
+        .SYNOPSIS 
+        Opens PS ISE with PSProfile.
+
+        .DESCRIPTION
+        Opens PS ISE with PSProfile. Creates new one if no Profile exists.
+
+        .PARAMETER Console
+        Opens PS ISE with Console PSProfile. Default behaviour.
+
+        .PARAMETER ISE
+        Opens PS ISE with ISE PSProfile.
+
+        .PARAMETER Admin
+        Opens PS ISE with Console PSProfile as Admin. 
+
+        .PARAMETER All
+        Opens PS ISE with Console and ISE PSProfile.
+
+        .EXAMPLE
+        C:\PS> Edit-PSProfile
+
+        .EXAMPLE
+        C:\PS> Edit-PSProfile -ISE
+
+        .EXAMPLE
+        C:\PS> Edit-PSProfile -All
+
+        .EXAMPLE
+        C:\PS> Edit-PSProfile -All -Admin
+    #>
     [CMDletBinding(DefaultParameterSetName="Console")]
     param
     (
@@ -243,10 +343,35 @@ function Edit-PSProfile
     if($ISE)
     {
         $Path = $ISEProfilePath
+        if(!(Test-Path -Path $ISEProfilePath))
+        {
+            Write-Host "No local ISE Profile found. Creating empty ISE Profile."
+            New-Item -Path $ISEProfilePath | Out-Null
+        }
     }
     else
     {
         $Path = $ConsoleProfilePath
+        if(!(Test-Path -Path $ConsoleProfilePath))
+        {
+            Write-Host "No local Console Profile found. Creating empty Console Profile."
+            New-Item -Path $ConsoleProfilePath | Out-Null
+        }
+    }
+
+    if($All)
+    {
+        if(!(Test-Path -Path $ISEProfilePath))
+        {
+            Write-Host "No local ISE Profile found. Creating empty ISE Profile."
+            New-Item -Path $ISEProfilePath | Out-Null
+        }
+
+        if(!(Test-Path -Path $ConsoleProfilePath))
+        {
+            Write-Host "No local Console Profile found. Creating empty Console Profile."
+            New-Item -Path $ConsoleProfilePath | Out-Null
+        }
     }
 
     if($Admin)

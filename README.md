@@ -19,8 +19,7 @@ Update-Module -Name PSProfile-Tools
 
 ## Usage
 
-NOTE: If no profile exists, you have to execute New-PSProfile first.  
-NOTE: This will be fixed in a coming release.
+NOTE: If no profile exists, empty Profiles will be created for you.
 
 ```powershell
 Import-Module -Name PSProfile-Tools
