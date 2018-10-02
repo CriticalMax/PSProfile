@@ -25,7 +25,7 @@ NOTE: This will be fixed in a coming release.
 ```powershell
 Import-Module -Name PSProfile-Tools
 
-#Necessary at first installation
+#Neccessary at first installation
 Install-PSProfileTools -ExportPath "Path\To\Export"
 
 #If you have no PSProfile so far run
