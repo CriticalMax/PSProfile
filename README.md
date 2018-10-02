@@ -3,7 +3,7 @@
 Administration Tool for your PowerShell Profile.  
 The PowerShell Profile allows you to write Code that will be loaded every time you open the PS Console or ISE.  
 It's a great way to always have your own functions ready, without having the need to code and import an entire module.  
-This module will give you an easy way to create and backup your PS profile, in case you switch to another machine.
+This module makes it easy to create and backup your PS profile, in case you switch to another machine.
 
 >**Sidenote**  
 >*The more code you put into your profile the longer it will take for the PS Console and/or ISE to start.*
