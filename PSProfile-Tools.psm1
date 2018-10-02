@@ -47,6 +47,22 @@ function Install-PSProfileTools
 
 function Get-PSProfile
 {
+    <#
+        .SYNOPSIS 
+        Gets PSProfile from export path.      
+
+        .DESCRIPTION
+        Gets PSProfile from the export path saved in the Profile Config.
+
+        .PARAMETER Force
+        Automatically replaces existing Profiles.
+
+        .EXAMPLE
+        C:\PS> Get-PSProfile
+
+        .EXAMPLE
+        C:\PS> Get-PSProfile -Force
+    #>
     [CMDletBinding()]
     param
     (
@@ -124,6 +140,31 @@ function Get-PSProfile
 
 function New-PSProfile
 {
+    <#
+        .SYNOPSIS 
+        Creates New PSProfile.
+
+        .DESCRIPTION
+        Creates empty PSProfile for Console and ISE.
+
+        .PARAMETER OnlyConsole
+        Only creates PSProfile for PS Console.
+
+        .PARAMETER OnlyISE
+        Only creates PSProfile for PS ISE.
+
+        .PARAMETER Force
+        Overrides existing PSProfile.
+
+        .EXAMPLE
+        C:\PS> New-PSProfile
+
+        .EXAMPLE
+        C:\PS> New-PSProfile -OnlyConsole
+
+        .EXAMPLE
+        C:\PS> New-PSProfile -OnlyISE -Force
+    #>
     [CMDletBinding()]
     param
     (
@@ -184,6 +225,22 @@ function New-PSProfile
 
 function Save-PSProfile
 {
+    <#
+        .SYNOPSIS 
+        Copies local PSProfile into ExportPath.
+
+        .DESCRIPTION
+        Copies local PSProfile into ExportPath.
+
+        .PARAMETER Force
+        Overrides existing PSProfile in ExportPath.
+
+        .EXAMPLE
+        C:\PS> Save-PSProfile
+
+        .EXAMPLE
+        C:\PS> Save-PSProfile -Force
+    #>
     [CMDletBinding()]
     param
     (
@@ -218,6 +275,37 @@ function Save-PSProfile
 
 function Edit-PSProfile
 {
+    <#
+        .SYNOPSIS 
+        Opens PS ISE with PSProfile.
+
+        .DESCRIPTION
+        Opens PS ISE with PSProfile.
+
+        .PARAMETER Console
+        Opens PS ISE with Console PSProfile. Default behaviour.
+
+        .PARAMETER ISE
+        Opens PS ISE with ISE PSProfile.
+
+        .PARAMETER Admin
+        Opens PS ISE with Console PSProfile as Admin. 
+
+        .PARAMETER All
+        Opens PS ISE with Console and ISE PSProfile.
+
+        .EXAMPLE
+        C:\PS> Edit-PSProfile
+
+        .EXAMPLE
+        C:\PS> Edit-PSProfile -ISE
+
+        .EXAMPLE
+        C:\PS> Edit-PSProfile -All
+
+        .EXAMPLE
+        C:\PS> Edit-PSProfile -All -Admin
+    #>
     [CMDletBinding(DefaultParameterSetName="Console")]
     param
     (
