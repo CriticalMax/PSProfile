@@ -14,10 +14,10 @@ function Install-PSProfileTools
         The Path the module will use to save your PowerShell Profile to.
 
         .EXAMPLE
-        C:\PS> Install-ProfileTools -ConfigPath "C:\Temp\" -ConfigName "ProfileSettings.json" -ExportPath "C:\Setup\Profile"
+        C:\PS> Install-PSProfileTools -ConfigPath "C:\Temp\" -ConfigName "ProfileSettings.json" -ExportPath "C:\Setup\Profile"
 
         .EXAMPLE
-        C:\PS> Install-ProfileTools -ExportPath "C:\Setup\Profile"
+        C:\PS> Install-PSProfileTools -ExportPath "C:\Setup\Profile"
     #>
     [CMDletBinding()]
     param
@@ -71,7 +71,7 @@ function Get-PSProfile
     )
 
    
-    $Config = (Get-Content -Path ((Get-ItemProperty -Path HKLM:\Software\ProfileTools).psobject.properties.value[0]) | ConvertFrom-Json)
+    $Config = Get-PSProfileConfig
     
     $Path = $Config.ExportPath
     $ConsoleProfileName = $Config.ConsoleProfile
@@ -176,7 +176,7 @@ function New-PSProfile
         [switch]$Force
     )
 
-    $Config = (Get-Content -Path ((Get-ItemProperty -Path HKLM:\Software\ProfileTools).psobject.properties.value[0]) | ConvertFrom-Json)
+    $Config = Get-PSProfileConfig
     
     $Path = $Config.ExportPath
     $ConsoleProfileName = $Config.ConsoleProfile
@@ -248,7 +248,7 @@ function Save-PSProfile
         [switch]$Force
     )
 
-    $Config = (Get-Content -Path ((Get-ItemProperty -Path HKLM:\Software\ProfileTools).psobject.properties.value[0]) | ConvertFrom-Json)
+    $Config = Get-PSProfileConfig
     
     $Path = $Config.ExportPath
     $ConsoleProfileName = $Config.ConsoleProfile
@@ -331,7 +331,7 @@ function Edit-PSProfile
         [switch]$All
     )
 
-    $Config = (Get-Content -Path ((Get-ItemProperty -Path HKLM:\Software\ProfileTools).psobject.properties.value[0]) | ConvertFrom-Json)
+    $Config = Get-PSProfileConfig
 
     $Path = "$env:USERPROFILE\Documents\WindowsPowerShell\"
     $ConsoleProfileName = $Config.ConsoleProfile
@@ -398,4 +398,23 @@ function Edit-PSProfile
             Start-Process -FilePath "C:\Windows\System32\WindowsPowerShell\v1.0\powershell_ise.exe" -ArgumentList "-File $Path"
         }
     }
+}
+
+function Get-PSProfileConfig
+{
+    if(!(Test-Path -Path HKLM:\Software\ProfileTools))
+    {
+        Write-Host "PSProfileConfig not found. Create a Config with command 'Install-PSProfileTools'." -ForegroundColor Red
+        break
+    }
+
+    if(!(Test-Path -Path ((Get-ItemProperty -Path HKLM:\Software\ProfileTools).psobject.properties.value[0])))
+    {
+        Write-Host "PSProfileConfig not found. Create a Config with command 'Install-PSProfileTools'." -ForegroundColor Red
+        break
+    }
+
+    $PSProfileConfig = (Get-Content -Path ((Get-ItemProperty -Path HKLM:\Software\ProfileTools).psobject.properties.value[0]) | ConvertFrom-Json)
+
+    return $PSProfileConfig
 }
