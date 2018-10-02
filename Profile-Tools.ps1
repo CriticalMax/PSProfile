@@ -45,13 +45,82 @@ function Install-ProfileTools
     New-Item -Path HKLM:\Software\ProfileTools -Value "$ConfigPath\$ConfigName" -Force | Out-Null
 }
 
-function Edit-PSProfile
+function Get-PSProfile
 {
-    [CMDletBinding(DefaultParameterSetName="Version")]
+    [CMDletBinding()]
     param
     (
         [Parameter()]
-        [string]$Path = "$env:USERPROFILE\Documents\WindowsPowerShell\",
+        [switch]$Force
+    )
+
+   
+    $Config = (Get-Content -Path ((Get-ItemProperty -Path HKLM:\Software\ProfileTools).psobject.properties.value[0]) | ConvertFrom-Json)
+    
+    $Path = $Config.ExportPath
+    $ConsoleProfileName = $Config.ConsoleProfile
+    $ISEProfileName = $Config.ISEProfile
+
+    $ProfilePath = "$env:USERPROFILE\Documents\WindowsPowerShell\"
+    $ProfilePathConsole = "$ProfilePath\$ConsoleProfileName"
+    $ProfilePathISE = "$ProfilePath\$ISEProfileName"
+
+    $ConsolePath = "$Path\$ConsoleProfileName"
+    $ISEPath = "$Path\$ISEProfileName"
+
+    if($Force)
+    {
+        Copy-Item -Path $ConsolePath -Destination $ProfilePathConsole -Force
+        Copy-Item -Path $ISEPath -Destination $ProfilePathISE -Force
+    }
+    else
+    {
+        Copy-Item -Path $ConsolePath -Destination $ProfilePathConsole
+        Copy-Item -Path $ISEPath -Destination $ProfilePathISE
+    }    
+}
+
+function Save-PSProfile
+{
+    [CMDletBinding()]
+    param
+    (
+        [Parameter()]
+        [switch]$Force
+    )
+
+    $Config = (Get-Content -Path ((Get-ItemProperty -Path HKLM:\Software\ProfileTools).psobject.properties.value[0]) | ConvertFrom-Json)
+    
+    $Path = $Config.ExportPath
+    $ConsoleProfileName = $Config.ConsoleProfile
+    $ISEProfileName = $Config.ISEProfile
+
+    $ProfilePath = "$env:USERPROFILE\Documents\WindowsPowerShell\"
+    $ProfilePathConsole = "$ProfilePath\$ConsoleProfileName"
+    $ProfilePathISE = "$ProfilePath\$ISEProfileName"
+
+    $ConsolePath = "$Path\$ConsoleProfileName"
+    $ISEPath = "$Path\$ISEProfileName"
+
+    if($Force)
+    {
+        Copy-Item -Path $ProfilePathConsole -Destination $ConsolePath -Force
+        Copy-Item -Path $ProfilePathISE -Destination $ISEPath -Force
+    }
+    else
+    {
+        Copy-Item -Path $ProfilePathConsole -Destination $ConsolePath
+        Copy-Item -Path $ProfilePathISE -Destination $ISEPath
+    }
+}
+
+function Edit-PSProfile
+{
+    [CMDletBinding(DefaultParameterSetName="Console")]
+    param
+    (
+        [Parameter(ParameterSetName="Console")]
+        [switch]$Console,
         [Parameter(ParameterSetName="ISE")]
         [switch]$ISE,
         [Parameter()]
@@ -60,8 +129,11 @@ function Edit-PSProfile
         [switch]$All
     )
 
-    $ConsoleProfileName = "Microsoft.PowerShell_profile.ps1"
-    $ISEProfileName = "Microsoft.PowerShellISE_profile.ps1"
+    $Config = (Get-Content -Path ((Get-ItemProperty -Path HKLM:\Software\ProfileTools).psobject.properties.value[0]) | ConvertFrom-Json)
+
+    $Path = "$env:USERPROFILE\Documents\WindowsPowerShell\"
+    $ConsoleProfileName = $Config.ConsoleProfile
+    $ISEProfileName = $Config.ISEProfile
 
     $ConsoleProfilePath = "$Path\$ConsoleProfileName"
     $ISEProfilePath = "$Path\$ISEProfileName"
