@@ -116,3 +116,59 @@ function Save-PSProfile
 
 function Edit-PSProfile
 {
+    [CMDletBinding(DefaultParameterSetName="Console")]
+    param
+    (
+        [Parameter(ParameterSetName="Console")]
+        [switch]$Console,
+        [Parameter(ParameterSetName="ISE")]
+        [switch]$ISE,
+        [Parameter()]
+        [switch]$Admin,
+        [Parameter(ParameterSetName="All")]
+        [switch]$All
+    )
+
+    $Config = (Get-Content -Path ((Get-ItemProperty -Path HKLM:\Software\ProfileTools).psobject.properties.value[0]) | ConvertFrom-Json)
+
+    $Path = "$env:USERPROFILE\Documents\WindowsPowerShell\"
+    $ConsoleProfileName = $Config.ConsoleProfile
+    $ISEProfileName = $Config.ISEProfile
+
+    $ConsoleProfilePath = "$Path\$ConsoleProfileName"
+    $ISEProfilePath = "$Path\$ISEProfileName"
+
+    if($ISE)
+    {
+        $Path = $ISEProfilePath
+    }
+    else
+    {
+        $Path = $ConsoleProfilePath
+    }
+
+    if($Admin)
+    {
+        if($All)
+        {
+            Start-Process -FilePath "C:\Windows\System32\WindowsPowerShell\v1.0\powershell_ise.exe" -ArgumentList "-File $ConsoleProfilePath" -Verb runAs
+            Start-Process -FilePath "C:\Windows\System32\WindowsPowerShell\v1.0\powershell_ise.exe" -ArgumentList "-File $ISEProfilePath" -Verb runAs
+        }
+        else
+        {
+            Start-Process -FilePath "C:\Windows\System32\WindowsPowerShell\v1.0\powershell_ise.exe" -ArgumentList "-File $Path" -Verb runAs
+        }
+    }
+    else
+    {
+        if($All)
+        {
+            Start-Process -FilePath "C:\Windows\System32\WindowsPowerShell\v1.0\powershell_ise.exe" -ArgumentList "-File $ConsoleProfilePath"
+            Start-Process -FilePath "C:\Windows\System32\WindowsPowerShell\v1.0\powershell_ise.exe" -ArgumentList "-File $ISEProfilePath"
+        }
+        else
+        {
+            Start-Process -FilePath "C:\Windows\System32\WindowsPowerShell\v1.0\powershell_ise.exe" -ArgumentList "-File $Path"
+        }
+    }
+}
