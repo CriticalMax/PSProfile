@@ -261,6 +261,18 @@ function Save-PSProfile
     $ConsolePath = "$Path\$ConsoleProfileName"
     $ISEPath = "$Path\$ISEProfileName"
 
+    if(!(Test-Path -Path $ProfilePathISE))
+        {
+            Write-Host "No local ISE Profile found. Creating empty ISE Profile."
+            New-Item -Path $ProfilePathISE | Out-Null
+        }
+
+        if(!(Test-Path -Path $ProfilePathConsole))
+        {
+            Write-Host "No local Console Profile found. Creating empty Console Profile."
+            New-Item -Path $ProfilePathConsole | Out-Null
+        }
+
     if($Force)
     {
         Copy-Item -Path $ProfilePathConsole -Destination $ConsolePath -Force
@@ -280,7 +292,7 @@ function Edit-PSProfile
         Opens PS ISE with PSProfile.
 
         .DESCRIPTION
-        Opens PS ISE with PSProfile.
+        Opens PS ISE with PSProfile. Creates new one if no Profile exists.
 
         .PARAMETER Console
         Opens PS ISE with Console PSProfile. Default behaviour.
@@ -331,10 +343,35 @@ function Edit-PSProfile
     if($ISE)
     {
         $Path = $ISEProfilePath
+        if(!(Test-Path -Path $ISEProfilePath))
+        {
+            Write-Host "No local ISE Profile found. Creating empty ISE Profile."
+            New-Item -Path $ISEProfilePath | Out-Null
+        }
     }
     else
     {
         $Path = $ConsoleProfilePath
+        if(!(Test-Path -Path $ConsoleProfilePath))
+        {
+            Write-Host "No local Console Profile found. Creating empty Console Profile."
+            New-Item -Path $ConsoleProfilePath | Out-Null
+        }
+    }
+
+    if($All)
+    {
+        if(!(Test-Path -Path $ISEProfilePath))
+        {
+            Write-Host "No local ISE Profile found. Creating empty ISE Profile."
+            New-Item -Path $ISEProfilePath | Out-Null
+        }
+
+        if(!(Test-Path -Path $ConsoleProfilePath))
+        {
+            Write-Host "No local Console Profile found. Creating empty Console Profile."
+            New-Item -Path $ConsoleProfilePath | Out-Null
+        }
     }
 
     if($Admin)
