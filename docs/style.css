@@ -1,0 +1,174 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url("img/redbackground.jpg");
+    background-color: black;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+.steam-header {
+    height: 220px;
+    width: 1000px;
+    padding-right:20px;
+    padding-left:20px;
+    margin-right:auto;
+    margin-left:auto;
+    background-color: #262D38;
+    position: relative;
+    box-shadow: 1px 1px rgba(0,0,0,0.5);
+}
+
+#profile-picture {
+    margin-top: 35px;
+    margin-left: 10px;
+    float: left;
+    border-width: 2px;
+    border-color: rgb(65, 65, 65);
+    border-style: solid;
+}
+
+.profile-name {
+    color: white;
+    margin-top: 35px;
+    margin-left: 25px;
+    float: left;
+    font-family: Lato,sans-serif;
+    font-size: 28px;
+}
+
+.steam-profile {
+    height: 1700px;
+    width: 970px;
+    padding-right:20px;
+    padding-left:20px;
+    margin-right:auto;
+    margin-left:auto;
+    position: relative;
+    background: linear-gradient(to bottom right, rgba(0,0,0,0.5), rgb(19, 19, 19));
+}
+
+#online-state {
+    position: absolute;
+    margin-top: 5px;
+    margin-left: 10px;
+    font-family: lato,sans-serif;
+    font-size: 20px;
+    text-decoration: none;
+    text-decoration-style: none;
+}
+
+.gallery-text {
+    position: absolute;
+    margin-top: 5px;
+    margin-left: 10px;
+    font-family: lato,sans-serif;
+    font-size: 20px;
+    color: #7C92BA;
+    text-decoration: none;
+    text-decoration-style: none;
+}
+
+.steam-gallery {
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(to bottom right, #262D38, rgb(32, 35, 41), rgb(29, 29, 29));
+    height: auto;
+    width: 520px;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 5px;
+}
+
+.gallery {
+    position: relative;
+    height: auto;
+    width: 500px;
+    margin-top: 35px;
+    margin-left: 10px;
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+}
+
+.steam-sidebar {
+    display: inline-block;
+    position: absolute !important;
+    margin-top: 20px;
+    margin-left: 20px;
+    height: 550px;
+    width: 250px;
+
+}
+
+.steam-card {
+    position: absolute;
+    display: block;
+    background: linear-gradient(to bottom right, #262D38, rgb(32, 35, 41), rgb(29, 29, 29));
+    height: auto;
+    width: 520px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+#config {
+    background-color: rgb(29, 29, 29);
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 35px;
+    width: 500px;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.7) 0px 0px 10px 0px inset;
+}
+
+#config-text {
+    color: white;
+    margin-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#scroll-top-btn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: rgba(68, 106, 124, 0);
+    color: white;
+    cursor: pointer;
+    padding: 12px;
+    border-radius: 4px; 
+    text-decoration: none;
+    text-decoration-style: none;    
+}
+
+#scroll-top-btn:hover {
+    background-color: #555;
+}
+
+#dropdown-games {
+    display: none;
+    width: 100px;
+    height: 85px;
+    margin-top: 35px;
+    z-index: 99;
+    border-width: 2px;
+}
+
+/* Large desktops and laptops 
+@media (max-width: 1200px) {
+    .steam-sidebar {
+        margin-left: 
+    }
+}
+*/
