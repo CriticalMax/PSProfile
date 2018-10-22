@@ -7,14 +7,8 @@ function Install-PSProfileTools
         .DESCRIPTION
         The ProfileTools Config saves the import- and exportpaths for your PowerShell Profile.
 
-        .PARAMETER ConfigPath
-        The Path to the ProfileTools Config
-
         .PARAMETER ExportPath
         The Path the module will use to save your PowerShell Profile to.
-
-        .EXAMPLE
-        C:\PS> Install-ProfileTools -ConfigPath "C:\Temp\" -ConfigName "ProfileSettings.json" -ExportPath "C:\Setup\Profile"
 
         .EXAMPLE
         C:\PS> Install-ProfileTools -ExportPath "C:\Setup\Profile"
@@ -22,27 +16,14 @@ function Install-PSProfileTools
     [CMDletBinding()]
     param
     (
-        [Parameter()]
-        [string]$ConfigPath = "$env:USERPROFILE\ProfileTools",
-        [Parameter()]
-        [string]$ConfigName = "ProfileSettings.json",
         [Parameter(Mandatory)]
         [string]$ExportPath
     )
 
-    if(!(Test-Path -Path $ConfigPath))
-    {
-        New-Item -ItemType Directory -Path $ConfigPath -Force
-    }
-
-    $Config = New-Object -TypeName psobject
-    Add-Member -InputObject $Config -MemberType NoteProperty -Name "ExportPath" -Value $ExportPath
-    Add-Member -InputObject $Config -MemberType NoteProperty -Name "ConsoleProfile" -Value "Microsoft.PowerShell_profile.ps1"
-    Add-Member -InputObject $Config -MemberType NoteProperty -Name "ISEProfile" -Value "Microsoft.PowerShellISE_profile.ps1"
-
-    $Config = $Config | Convertto-json -Depth 100 
-    New-Item -ItemType File -Path "$ConfigPath\$ConfigName" -Value $Config -Force | Out-Null
-    New-Item -Path HKLM:\Software\ProfileTools -Value "$ConfigPath\$ConfigName" -Force | Out-Null
+    New-Item -Path HKLM:\Software\ProfileTools -Force | Out-Null
+    New-ItemProperty  -Path  HKLM:\Software\ProfileTools -Name "ExportPath" -PropertyType "String" -Value $ExportPath -Force | Out-Null
+    New-ItemProperty  -Path  HKLM:\Software\ProfileTools -Name "ConsoleProfile" -PropertyType "String" -Value "Microsoft.PowerShell_profile.ps1" -Force | Out-Null
+    New-ItemProperty  -Path  HKLM:\Software\ProfileTools -Name "ISEProfile" -PropertyType "String" -Value "Microsoft.PowerShellISE_profile.ps1" -Force | Out-Null
 }
 
 function Get-PSProfile
@@ -71,8 +52,8 @@ function Get-PSProfile
     )
 
    
-    $Config = (Get-Content -Path ((Get-ItemProperty -Path HKLM:\Software\ProfileTools).psobject.properties.value[0]) | ConvertFrom-Json)
-    
+    $Config = Get-ItemProperty -Path HKLM:\Software\ProfileTools
+
     $Path = $Config.ExportPath
     $ConsoleProfileName = $Config.ConsoleProfile
     $ISEProfileName = $Config.ISEProfile
@@ -176,7 +157,7 @@ function New-PSProfile
         [switch]$Force
     )
 
-    $Config = (Get-Content -Path ((Get-ItemProperty -Path HKLM:\Software\ProfileTools).psobject.properties.value[0]) | ConvertFrom-Json)
+    $Config = Get-ItemProperty -Path HKLM:\Software\ProfileTools
     
     $Path = $Config.ExportPath
     $ConsoleProfileName = $Config.ConsoleProfile
@@ -248,7 +229,7 @@ function Save-PSProfile
         [switch]$Force
     )
 
-    $Config = (Get-Content -Path ((Get-ItemProperty -Path HKLM:\Software\ProfileTools).psobject.properties.value[0]) | ConvertFrom-Json)
+    $Config = Get-ItemProperty -Path HKLM:\Software\ProfileTools
     
     $Path = $Config.ExportPath
     $ConsoleProfileName = $Config.ConsoleProfile
@@ -331,7 +312,7 @@ function Edit-PSProfile
         [switch]$All
     )
 
-    $Config = (Get-Content -Path ((Get-ItemProperty -Path HKLM:\Software\ProfileTools).psobject.properties.value[0]) | ConvertFrom-Json)
+    $Config = Get-ItemProperty -Path HKLM:\Software\ProfileTools
 
     $Path = "$env:USERPROFILE\Documents\WindowsPowerShell\"
     $ConsoleProfileName = $Config.ConsoleProfile
@@ -358,7 +339,7 @@ function Edit-PSProfile
             New-Item -Path $ConsoleProfilePath | Out-Null
         }
     }
-
+ö
     if($All)
     {
         if(!(Test-Path -Path $ISEProfilePath))
