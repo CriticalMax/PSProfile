@@ -11,14 +11,7 @@ function Install-PSProfileTools
         The Path the module will use to save your PowerShell Profile to.
 
         .EXAMPLE
-<<<<<<< HEAD
         C:\PS> Install-ProfileTools -ExportPath "C:\Setup\Profile"
-=======
-        C:\PS> Install-PSProfileTools -ConfigPath "C:\Temp\" -ConfigName "ProfileSettings.json" -ExportPath "C:\Setup\Profile"
-
-        .EXAMPLE
-        C:\PS> Install-PSProfileTools -ExportPath "C:\Setup\Profile"
->>>>>>> 2ff740333260a8a043eb0284c92afae400565c62
     #>
     [CMDletBinding()]
     param
@@ -59,13 +52,8 @@ function Get-PSProfile
     )
 
    
-<<<<<<< HEAD
     $Config = Get-ItemProperty -Path HKLM:\Software\ProfileTools
 
-=======
-    $Config = Get-PSProfileConfig
-    
->>>>>>> 2ff740333260a8a043eb0284c92afae400565c62
     $Path = $Config.ExportPath
     $ConsoleProfileName = $Config.ConsoleProfile
     $ISEProfileName = $Config.ISEProfile
@@ -169,11 +157,7 @@ function New-PSProfile
         [switch]$Force
     )
 
-<<<<<<< HEAD
     $Config = Get-ItemProperty -Path HKLM:\Software\ProfileTools
-=======
-    $Config = Get-PSProfileConfig
->>>>>>> 2ff740333260a8a043eb0284c92afae400565c62
     
     $Path = $Config.ExportPath
     $ConsoleProfileName = $Config.ConsoleProfile
@@ -245,11 +229,7 @@ function Save-PSProfile
         [switch]$Force
     )
 
-<<<<<<< HEAD
     $Config = Get-ItemProperty -Path HKLM:\Software\ProfileTools
-=======
-    $Config = Get-PSProfileConfig
->>>>>>> 2ff740333260a8a043eb0284c92afae400565c62
     
     $Path = $Config.ExportPath
     $ConsoleProfileName = $Config.ConsoleProfile
@@ -332,11 +312,7 @@ function Edit-PSProfile
         [switch]$All
     )
 
-<<<<<<< HEAD
     $Config = Get-ItemProperty -Path HKLM:\Software\ProfileTools
-=======
-    $Config = Get-PSProfileConfig
->>>>>>> 2ff740333260a8a043eb0284c92afae400565c62
 
     $Path = "$env:USERPROFILE\Documents\WindowsPowerShell\"
     $ConsoleProfileName = $Config.ConsoleProfile
@@ -363,7 +339,7 @@ function Edit-PSProfile
             New-Item -Path $ConsoleProfilePath | Out-Null
         }
     }
-ö
+
     if($All)
     {
         if(!(Test-Path -Path $ISEProfilePath))
